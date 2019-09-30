@@ -6,6 +6,7 @@ public class NPCBehaviour : MonoBehaviour
 {
     Rigidbody2D rb2d;
     Vector3 moveDirection;
+    public float mass;
 
     // Start is called before the first frame update
     void Start()
