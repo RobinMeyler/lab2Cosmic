@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4799228428216663319}
   m_Layer: 0
   m_Name: NPCPlanet
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115af35d1ab23b84cb7b00e9e76a1228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mass: 0
 --- !u!50 &4799228428216663319
 Rigidbody2D:
   serializedVersion: 4

@@ -14,6 +14,7 @@ public class NPCBehaviour : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         moveDirection = new Vector3( Random.Range(-10,10), Random.Range(-10, 10), Random.Range(-10, 10));
         moveDirection.Normalize();
+        mass = Random.Range(10, 50);
     }
 
     
