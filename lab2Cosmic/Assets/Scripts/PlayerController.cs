@@ -12,10 +12,14 @@ public class PlayerController : MonoBehaviour
     float enemyMass;
     public float speed;
 
+    float massToScaleRatio; // -josh experiment..
+
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+
+        massToScaleRatio = rb2d.transform.localScale.x / rb2d.mass;  // -josh experiment..
     }
 
     // Update is called once per frame
@@ -54,12 +58,16 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("NPC"))
         {
+            rb2d.mass += collision.GetComponent<Rigidbody2D>().mass;  // add npc mass to player mass
+            rb2d.transform.localScale += collision.transform.localScale; // add npc scale to player scale
+
             collision.gameObject.SetActive(false);
 
            // transform.localScale = Vector3(1.0f, 1.0f, 1.0f);
-          //  mass += 10;
+           //  mass += 10;
 
             score++;
+
         }
     }
 
