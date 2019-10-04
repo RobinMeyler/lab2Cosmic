@@ -5,8 +5,8 @@ using UnityEngine;
 public class NPCBehaviour : MonoBehaviour
 {
     Rigidbody2D rb2d;
+    public float mass;
     Vector3 moveDirection;
-    //public float mass;
     float speed;
     private Sprite s;
 
@@ -17,11 +17,13 @@ public class NPCBehaviour : MonoBehaviour
         moveDirection = new Vector3( Random.Range(-10,10), Random.Range(-10, 10), 0);
         moveDirection.Normalize();
         //mass = Random.Range(10, 50);
-        speed = Random.Range(5, 10);
+        speed = Random.Range(2, 6);
 
-        rb2d.mass = Random.Range(50, 450);
-        transform.position = new Vector3(Random.Range(-500, 500), Random.Range(-500, 500), 0);
-        rb2d.transform.localScale = new Vector3(rb2d.mass / 50, rb2d.mass / 50, rb2d.mass / 50);
+        mass = Random.Range(50, 650);
+        transform.position = new Vector3(Random.Range(-300, 300), Random.Range(-300, 300), 0);
+        rb2d.transform.localScale = new Vector3(mass / 50, mass / 50, mass / 50);
+
+        rb2d.velocity = (moveDirection * speed);
 
         //change collider size to match new sprite size..
         Vector3 spriteHalfSize = this.GetComponent<SpriteRenderer>().sprite.bounds.extents;
@@ -34,7 +36,7 @@ public class NPCBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         //rb2d.AddForce(moveDirection);
-        rb2d.velocity = (moveDirection * speed);
+       // rb2d.velocity = (moveDirection * speed);
         transform.Rotate(new Vector3(0, 0, Random.Range(10,60)) * Time.deltaTime);
     }
 }

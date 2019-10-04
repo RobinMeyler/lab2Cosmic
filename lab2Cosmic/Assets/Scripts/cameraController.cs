@@ -6,7 +6,7 @@ public class cameraController : MonoBehaviour
 {
     public GameObject earth;
 
-
+    private int count;
     private Vector3 offset;
 
     // Start is called before the first frame update
@@ -18,6 +18,25 @@ public class cameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (Input.GetKey(KeyCode.B) && count > 10)
+        {
+            count = 0;
+            if (GetComponent<Camera>().orthographicSize == 50)
+            {
+                GetComponent<Camera>().orthographicSize = 100;
+            }
+            else if (GetComponent<Camera>().orthographicSize == 100)
+            {
+                GetComponent<Camera>().orthographicSize = 200;
+            }
+            else if (GetComponent<Camera>().orthographicSize == 200)
+            {
+                GetComponent<Camera>().orthographicSize = 50;
+            }
+        }
+        count++;
+
         transform.position = earth.transform.position + offset;
     }
+
 }
