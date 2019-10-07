@@ -13,13 +13,14 @@ public class PlayerController : MonoBehaviour
     float mass;
     float enemyMass;
     public float speed;
+    private int NPCcount;
 
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         mass = 150;
-    
+        NPCcount = 0;
         rb2d.transform.localScale = new Vector3(mass / 50, mass / 50, 1);
         this.GetComponent<CircleCollider2D>().radius = this.GetComponent<SpriteRenderer>().bounds.size.x / 2;
 
@@ -53,33 +54,24 @@ public class PlayerController : MonoBehaviour
         }
         // Mass to distance check here to enforce gravity
        
-        enemyMass = gos[index].GetComponent<NPCBehaviour>().mass; // change by josh
+        enemyMass = gos[index].GetComponent<NPCBehaviour>().mass;
         Vector3 gravforce = (gos[index].GetComponent<NPCBehaviour>().transform.position - transform.position).normalized;
 
         float gravDist = Vector3.Distance(transform.position, gos[index].transform.position);
-        float gravPower = (enemyMass / gravDist);
+        float gravPower = ((enemyMass / gravDist) * 1.5f);
 
-        if (gravDist < enemyMass * 1.6)
+        if (gravDist < enemyMass * 1.5)
         {
             rb2d.AddForce(gravforce * gravPower);
         }
-        Debug.Log("Dist: " + gravDist);
-
-        float f = gos[index].GetComponent<CircleCollider2D>().radius + this.GetComponent<CircleCollider2D>().radius;
-        Debug.Log("radi: " + f);
-        if (gravDist < (gos[index].GetComponent<CircleCollider2D>().radius + this.GetComponent<CircleCollider2D>().radius ))
-        {
-            doCollide(gos[index].GetComponent<CircleCollider2D>());
-        }
     }
 
-    void doCollide(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("NPC"))
         {
             if (collision.GetComponent<NPCBehaviour>().mass < mass)
             {
-                collision.isTrigger = true;
                 mass += collision.GetComponent<NPCBehaviour>().mass;  // add npc mass to player mass
                 rb2d.transform.localScale += collision.transform.localScale; // add npc scale to player scale
                 Vector3 spriteHalfSize = this.GetComponent<SpriteRenderer>().sprite.bounds.extents;
@@ -87,6 +79,7 @@ public class PlayerController : MonoBehaviour
                 s = this.GetComponent<SpriteRenderer>().sprite;
                 collision.gameObject.SetActive(false);
                 ScoreTextBehaviour.scoreCount += (int)collision.GetComponent<NPCBehaviour>().mass;
+                NPCcount++;
             }
             else
             {
@@ -98,6 +91,10 @@ public class PlayerController : MonoBehaviour
            
             score += (int)collision.GetComponent<NPCBehaviour>().mass;
 
+            if(NPCcount == 15)
+            {
+                lost.text = "Win!";
+            }
         }
     }
 
